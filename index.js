@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Data = require('./data_model');
+var Seeder = require('./db_seeder');
 
 var app = express();
 
@@ -17,5 +18,11 @@ app.get('/api/data', function(req, res) {
     res.send(datas);
   });
 });
+
+Data.find({}, function(err, result) {
+  if(!result.length) {
+    Seeder.populateDB();
+  }
+})
 
 app.listen(PORT);

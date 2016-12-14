@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Data = require('./data_model');
 
-mongoose.connect('mongodb://localhost/mockdata');
+//mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mockdata');
 
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 var progress = 0;
@@ -35,17 +35,24 @@ function createName() {
   return firstName + ' ' + lastName;
 }
 
-for(var i = 0; i < 100; i++) {
-  Data.create({
-    name: createName(),
-    upside: getRandomInt(0,100),
-    downside: getRandomInt(0,100),
-    left: getRandomInt(0,100),
-    right: getRandomInt(0,100)
-  }, function(err, data) {
-    if(!err) {
-      progress++
-      console.log(progress + '% done');
-    }
-  });
+function populateDB() {
+
+  for(var i = 0; i < 100; i++) {
+    Data.create({
+      name: createName(),
+      upside: getRandomInt(0,100),
+      downside: getRandomInt(0,100),
+      left: getRandomInt(0,100),
+      right: getRandomInt(0,100)
+    }, function(err, data) {
+      if(!err) {
+        progress++
+        console.log(progress + '% done');
+      }
+    });
+  }
+}
+
+module.exports = {
+  populateDB: populateDB
 }
