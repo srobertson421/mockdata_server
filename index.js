@@ -10,6 +10,12 @@ var PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mockdata');
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', '*');
+});
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
